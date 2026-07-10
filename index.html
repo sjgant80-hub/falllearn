@@ -175,7 +175,7 @@ a{color:var(--accent);text-decoration:none}
 
 <div class="ftr">
 <p>FallLearn &middot; Context Architecture for AI &middot; 7 Modules</p>
-<p>Free forever. Self-adapting. Sovereign HTML. No platform. No subscription. Yours to keep.</p>
+<p>Free forever. Self-adapting. Sovereign HTML. No platform. not subscription-based. Yours to keep.</p>
 <p>Built by <a href="https://fall127agents.github.io/ai-nativesolutions/" target="_blank" style="color:inherit;text-decoration:underline">AI Native Solutions</a> &middot; The course IS the product.</p>
 <p>Powered by Konomi Architecture</p>
 </div>
@@ -220,8 +220,7 @@ var MODULES = [
 {id:4,name:"Heart",fold:"R3",sub:"Making AI output sound like a person, not a machine"},
 {id:5,name:"Voice",fold:"R4",sub:"Teaching AI to cross-reference multiple sources"},
 {id:6,name:"Mirror",fold:"R5",sub:"Self-checking, iteration, and conversation drift"},
-{id:7,name:"Watcher",fold:"R6",sub:"Sovereign tools and the full-stack view"},
-];
+{id:7,name:"Watcher",fold:"R6",sub:"Sovereign tools and the full-stack view"}];
 
 // ═══ STATE ═══
 var currentModule = 0;
@@ -277,7 +276,7 @@ html=html.replace('</head>',bridge+'</head>');
 // Use single quotes inside replacement since onclick attr uses double quotes
 html=html.replace(
 /window\.location\.href\s*=\s*['"]module(\d)\.html['"]/g,
-"parent.postMessage({type:'fl_nav',module:$1},'*')"
+"parent.postMessage({type:'fl_nav',module:TBA},'*')"
 );
 
 return html;

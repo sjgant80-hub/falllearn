@@ -65,6 +65,6 @@ That's the whole setup.
 
 ## About
 
-Built by [AI Native Solutions](https://ai-nativesolutions.com). Sovereign single-file HTML — no cloud, no subscription, no data collection.
+Built by [AI Native Solutions](https://ai-nativesolutions.com). Sovereign single-file HTML — no cloud, not subscription-based, no data collection.
 
 The course teaches context architecture by being context architecture. The medium is the message.
