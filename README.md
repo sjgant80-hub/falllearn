@@ -1,5 +1,7 @@
 # FallLearn — AI Skills Course
 
+**Live:** [sjgant80-hub.github.io/FallLearn](https://sjgant80-hub.github.io/FallLearn/)
+
 **One HTML file. Eight interactive modules. No server, no login, no dependencies.**
 
 FallLearn teaches people how to use AI properly — not tips and tricks, but the actual skill of designing context that transforms AI output from generic to professional-grade.
