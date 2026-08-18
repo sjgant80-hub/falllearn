@@ -1,72 +1,57 @@
-# FallLearn — AI Skills Course
+# FallLearn — how to actually talk to AI
 
-**Live:** [sjgant80-hub.github.io/FallLearn](https://sjgant80-hub.github.io/FallLearn/)
+**Live: https://sjgant80-hub.github.io/falllearn/**
 
-**One HTML file. Eight interactive modules. No server, no login, no dependencies.**
+Thirteen exercises. It marks what you write. One HTML file, works offline, no account, no model,
+nothing you type leaves your machine.
 
-FallLearn teaches people how to use AI properly — not tips and tricks, but the actual skill of designing context that transforms AI output from generic to professional-grade.
+## Why another one
 
-The complete course ships as a single 268KB HTML file with all 8 modules nested inside. Open it in any browser. That's it.
+Almost every course about talking to AI is a list of tips. You read it, you nod, and nothing has
+changed — because nothing ever checked whether you could do it. **A lesson that cannot fail you has
+not taught you anything; it has only agreed with you.**
 
----
+So this one marks. You write a real request, and it tells you which of the things the exercise asked
+for are actually in it — and for every one that is missing, the sentence you could paste.
 
-## What's Inside
+## Both halves
 
-| # | Module | What You Learn |
-|---|--------|----------------|
-| 1 | **Foundations** | How AI prediction actually works — not the marketing version |
-| 2 | **Critical Reading** | Detecting hallucinations, sycophancy, and confident nonsense |
-| 3 | **System Prompts** | Writing instructions that transform what AI can do |
-| 4 | **Tone & Voice** | Making AI output sound like a person, not a machine |
-| 5 | **Multi-Source** | Getting AI to cross-reference files and find conflicts |
-| 6 | **Self-Checking** | Building verification loops into AI workflows |
-| 7 | **Building Tools** | Creating your own sovereign AI-powered applications |
-| ★ | **Kids Edition** | The same concepts taught through play (ages 8-14) |
+| | |
+|---|---|
+| **Asking properly** (8) | ask for a thing not a topic · say who reads it · give it something to work from · say what finished looks like · show one example · say what you do not want · give it room to say no · then all of it, unprompted |
+| **Reading the answer** (5) | the half nobody teaches: praise before the answer · warm-up padding · precise numbers from nowhere · not one soft edge anywhere · all of it at once |
 
-## How It Works
+Every reading exercise ends with the sentence to send back, because a fault you cannot act on is
+trivia. The follow-up **is** the skill.
 
-Each module is a complete interactive lesson with:
+## What it cannot do, said up front
 
-- **Adaptive content** — pick your level (beginner / intermediate / advanced) and the lesson rewrites itself
-- **Built-in AI tutor** — ask questions, get feedback on exercises, test your work
-- **Live exercises** — write system prompts, test them against real AI, see the difference
-- **No account needed** — open the file, start learning
+It checks whether you **said** a thing, not whether what you said was any good. It can see you named
+an audience; it cannot know whether it was the right audience. Every verdict is "you left this out"
+or "you put this in" — never "this is good". A marker claiming to judge quality would be doing
+exactly what the course teaches you to catch.
 
-The AI tutor runs on free API tiers (Gemini, DeepSeek) or paid (Anthropic). Paste a key to unlock it. Without a key, the tutor uses a built-in response engine that covers the core concepts.
+It says so on every single pass, on purpose.
 
-## Kids Edition
+## Proof
 
-Module 8 is a standalone course for young learners. They design their own AI companion — pick a face, name it, choose personality traits and interests — then learn through 5 levels of challenges. The companion appears throughout, themed to their choices.
+| check | verdict |
+|---|---|
+| tests | 48 |
+| mutation gate on `learn.mjs` | **1.00 — 0 survivors, 0 exemptions** |
+| fuzz | `read` `mark` `tells` `exchange` never throw, on any input |
+| lessons | every weak example provably FAILS its own exercise; every tell is provably findable |
+| page | generated from `learn.mjs`; CI fails if the page and the marker disagree |
 
-Kids learn system prompts without knowing that's what they're called. By the end they're writing structured AI instructions and spotting hallucinations. Certificate at the finish.
+```bash
+node --test learn.test.mjs lessons.test.mjs
+node build-page.mjs
+```
 
-## Quick Start
+`learn.mjs` is pure — no model, no network, no clock, no randomness. The same text gets the same
+verdict every time, which is what makes it something you can argue with.
 
-1. Download `FallLearn.html`
-2. Open it in any browser
-3. Click a module
-4. Learn
+## Take it with you
 
-That's the whole setup.
-
-## Technical Details
-
-- **Architecture:** 8 complete HTML applications base64-encoded inside one file. Each module renders in an isolated iframe via blob URL.
-- **Size:** 268KB total (all 8 modules)
-- **Dependencies:** None. Google Fonts loaded if online, falls back to system fonts if offline.
-- **Storage:** localStorage for progress tracking and API keys. Nothing leaves your browser.
-- **API support:** Gemini, DeepSeek, Anthropic. All optional. Keys stored locally.
-- **Works offline:** Yes, except for API-powered tutor features.
-
-## Who This Is For
-
-- **Anyone using AI tools** who wants better results than "be helpful"
-- **Professionals** building AI into their workflows
-- **Parents** who want their kids to understand AI before it shapes their world
-- **Teams** who need a shared baseline on AI capability and limitations
-
-## About
-
-Built by [AI Native Solutions](https://ai-nativesolutions.com). Sovereign single-file HTML — no cloud, not subscription-based, no data collection.
-
-The course teaches context architecture by being context architecture. The medium is the message.
+Save the page (⌘S / Ctrl-S) and it keeps working with the wifi off. That is the whole product —
+one file.

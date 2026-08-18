@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FallLearn — how to actually talk to AI</title>
+<meta name="description" content="A short course that marks your writing instead of agreeing with it. Twelve exercises: eight on asking properly, four on reading the answer. Works offline, no account, no model needed.">
+<style>
+:root{
+  --paper:#fbfaf7; --card:#fff; --sunk:#f2f1ec; --rule:#ddd9d0; --rule-soft:#ebe8e1;
+  --ink:#1c1a17; --mid:#57534c; --faint:#8a857c;
+  --mark:#1f6f4f; --mark-soft:#e2f2ea;
+  --miss:#a8442f; --miss-soft:#fbe9e4;
+  --note:#8a6a12; --note-soft:#f7eed6;
+  --serif:ui-serif,Georgia,'Iowan Old Style','Palatino Linotype',serif;
+  --sans:ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --paper:#14151a; --card:#1b1d23; --sunk:#101116; --rule:#333741; --rule-soft:#25282f;
+  --ink:#e8e6e1; --mid:#a5a29b; --faint:#6f6c66;
+  --mark:#5fce9c; --mark-soft:#12291f;
+  --miss:#e08a72; --miss-soft:#2b1815;
+  --note:#dcb45c; --note-soft:#2a2213;
+}}
+:root[data-theme="dark"]{
+  --paper:#14151a; --card:#1b1d23; --sunk:#101116; --rule:#333741; --rule-soft:#25282f;
+  --ink:#e8e6e1; --mid:#a5a29b; --faint:#6f6c66;
+  --mark:#5fce9c; --mark-soft:#12291f;
+  --miss:#e08a72; --miss-soft:#2b1815;
+  --note:#dcb45c; --note-soft:#2a2213;
+}
+:root[data-theme="light"]{
+  --paper:#fbfaf7; --card:#fff; --sunk:#f2f1ec; --rule:#ddd9d0; --rule-soft:#ebe8e1;
+  --ink:#1c1a17; --mid:#57534c; --faint:#8a857c;
+  --mark:#1f6f4f; --mark-soft:#e2f2ea;
+  --miss:#a8442f; --miss-soft:#fbe9e4;
+  --note:#8a6a12; --note-soft:#f7eed6;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;
+  line-height:1.55;-webkit-text-size-adjust:100%}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--note);outline-offset:2px}
+
+header{border-bottom:1px solid var(--rule);background:var(--card)}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+header .wrap{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding-top:15px;padding-bottom:15px}
+h1{font-family:var(--serif);font-size:23px;margin:0;font-weight:600;letter-spacing:-.01em}
+h1 em{font-style:italic;color:var(--mid)}
+header .sub{color:var(--faint);font-size:13.5px;flex:1 1 auto;min-width:180px}
+.ghost{background:none;border:1px solid var(--rule);color:var(--mid);border-radius:4px;padding:4px 10px;
+  font-size:12px;cursor:pointer;font-family:var(--mono)}
+.ghost:hover{border-color:var(--note);color:var(--note)}
+
+.opening{padding:26px 0 6px}
+.opening p{font-family:var(--serif);font-size:19px;line-height:1.5;margin:0 0 14px;color:var(--ink)}
+.opening p.small{font-family:var(--sans);font-size:15px;color:var(--mid)}
+
+nav{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--rule-soft);
+  padding:9px 0;margin-bottom:22px}
+nav .wrap{display:flex;gap:5px;overflow-x:auto;padding-bottom:2px}
+.step{flex:0 0 auto;width:27px;height:27px;border-radius:50%;border:1px solid var(--rule);background:var(--card);
+  color:var(--faint);font-size:11.5px;font-family:var(--mono);cursor:pointer;display:grid;place-items:center;padding:0}
+.step:hover{border-color:var(--note)}
+.step.here{border-color:var(--ink);color:var(--ink);font-weight:700}
+.step.done{background:var(--mark-soft);border-color:var(--mark);color:var(--mark)}
+.step.read{border-style:dashed}
+
+main{padding-bottom:60px}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
+h2{font-family:var(--serif);font-size:27px;margin:0 0 12px;font-weight:600;line-height:1.2;letter-spacing:-.015em;text-wrap:balance}
+.teaches{font-size:16.5px;color:var(--mid);margin:0 0 20px;max-width:62ch}
+
+.card{border:1px solid var(--rule);border-radius:6px;background:var(--card);margin-bottom:18px;overflow:hidden}
+.card>.top{padding:9px 15px;border-bottom:1px solid var(--rule-soft);background:var(--sunk);
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.card>.body{padding:15px}
+.brief{font-size:15.5px;color:var(--ink)}
+
+.weak{border-left:3px solid var(--miss);background:var(--miss-soft);border-radius:0 4px 4px 0;padding:11px 14px;margin-top:13px}
+.weak .q{font-family:var(--mono);font-size:13.5px;color:var(--ink);margin-bottom:7px;overflow-wrap:anywhere}
+.weak .n{font-size:14px;color:var(--mid)}
+
+textarea{width:100%;min-height:130px;background:var(--sunk);border:1px solid var(--rule);border-radius:5px;
+  padding:12px 14px;font-family:var(--mono);font-size:14px;line-height:1.55;resize:vertical}
+.row{display:flex;gap:9px;align-items:center;margin-top:11px;flex-wrap:wrap}
+.go{background:var(--ink);color:var(--paper);border:none;border-radius:5px;padding:9px 18px;font-weight:600;
+  cursor:pointer;font-size:14.5px}
+.go:hover{opacity:.87}
+.count{font-family:var(--mono);font-size:12px;color:var(--faint);margin-left:auto}
+
+.verdict{margin-top:15px;border-radius:5px;padding:13px 15px;border:1px solid var(--rule)}
+.verdict.pass{border-color:var(--mark);background:var(--mark-soft)}
+.verdict.fail{border-color:var(--miss);background:var(--miss-soft)}
+.verdict h3{margin:0 0 9px;font-size:15.5px;font-family:var(--sans);font-weight:650}
+.verdict.pass h3{color:var(--mark)} .verdict.fail h3{color:var(--miss)}
+.ticks{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.tick{font-family:var(--mono);font-size:11.5px;border-radius:99px;padding:3px 10px;border:1px solid var(--rule);color:var(--faint)}
+.tick.in{border-color:var(--mark);color:var(--mark);background:var(--card)}
+.tick.out{border-color:var(--miss);color:var(--miss);background:var(--card)}
+.fixes{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.fixes li{font-size:14.5px;color:var(--mid);line-height:1.5;padding-left:15px;position:relative}
+.fixes li::before{content:"+";position:absolute;left:0;color:var(--miss);font-family:var(--mono);font-weight:700}
+.fixes b{color:var(--ink);font-weight:650}
+.limit{margin-top:11px;padding-top:10px;border-top:1px dashed var(--rule);font-size:13.5px;color:var(--faint);font-style:italic}
+
+.reply{font-family:var(--serif);font-size:16px;line-height:1.6;background:var(--sunk);border-radius:5px;
+  padding:14px 16px;border:1px solid var(--rule-soft);white-space:pre-wrap}
+.picks{display:grid;gap:9px;margin-top:14px}
+.pick{display:flex;gap:11px;align-items:flex-start;border:1px solid var(--rule);border-radius:5px;
+  padding:11px 13px;background:var(--card);cursor:pointer;text-align:left;width:100%}
+.pick:hover{border-color:var(--note)}
+.pick.chosen{border-color:var(--ink)}
+.pick.right{border-color:var(--mark);background:var(--mark-soft)}
+.pick.wrong{border-color:var(--miss);background:var(--miss-soft)}
+.pick .box{width:15px;height:15px;border:1px solid var(--rule);border-radius:3px;flex:0 0 auto;margin-top:3px}
+.pick.chosen .box,.pick.right .box{background:var(--ink);border-color:var(--ink)}
+.pick.right .box{background:var(--mark);border-color:var(--mark)}
+.pick .t{font-weight:600;font-size:14.5px}
+.pick .d{font-size:13.5px;color:var(--mid);margin-top:2px}
+.comeback{margin-top:14px;border-left:3px solid var(--note);background:var(--note-soft);padding:12px 14px;border-radius:0 4px 4px 0}
+.comeback .l{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--note);margin-bottom:6px}
+.comeback p{margin:0 0 7px;font-family:var(--mono);font-size:13.5px;color:var(--ink)}
+.comeback p:last-child{margin-bottom:0}
+
+.foot{display:flex;justify-content:space-between;gap:12px;margin-top:26px;flex-wrap:wrap}
+.foot button{background:none;border:1px solid var(--rule);border-radius:5px;padding:8px 15px;cursor:pointer;
+  color:var(--mid);font-size:14px}
+.foot button:hover{border-color:var(--ink);color:var(--ink)}
+.foot button:disabled{opacity:.4;cursor:default}
+.foot button.next{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+.done{text-align:center;padding:30px 0}
+.done h2{font-size:30px}
+.done .big{font-family:var(--mono);font-size:44px;color:var(--mark);margin:14px 0;font-variant-numeric:tabular-nums}
+
+footer{border-top:1px solid var(--rule);background:var(--card);padding:18px 0;font-size:13px;color:var(--faint)}
+footer .wrap{display:flex;gap:16px;flex-wrap:wrap;align-items:baseline}
+footer a{color:var(--mid)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (max-width:600px){ h2{font-size:23px} .opening p{font-size:17px} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>FallLearn <em>— how to actually talk to AI</em></h1>
+    <span class="sub">Twelve exercises. It marks what you write.</span>
+    <button class="ghost" type="button" id="theme">theme</button>
+  </div>
+</header>
+
+<nav><div class="wrap" id="steps"></div></nav>
+
+<main class="wrap" id="main"></main>
+
+<footer>
+  <div class="wrap">
+    <span id="proof">marker: learn.mjs</span>
+    <span>Works offline. No account, no model, nothing sent anywhere.</span>
+    <a href="https://sjgant80-hub.github.io/didy-raid/">The Armoury</a>
+    <a href="https://github.com/sjgant80-hub/falllearn">source</a>
+  </div>
+</footer>
+
+<script type="module">
+/*__KERNEL__*/
+
+// ══════════════════════════════════════════════════════════════════════════════════════════════
+// The page. It only DRAWS what the marker above decided — every verdict on this screen comes from
+// the same code that gets marked itself, so what a learner is told is what was checked.
+// ══════════════════════════════════════════════════════════════════════════════════════════════
+const $ = (s) => document.querySelector(s);
+const el = (t, c, txt) => { const n = document.createElement(t); if (c) n.className = c; if (txt != null) n.textContent = txt; return n; };
+
+const SAVE = 'falllearn.progress.v2';
+const load = () => { try { const p = JSON.parse(localStorage.getItem(SAVE) || '{}');
+  return { at: Number.isInteger(p.at) ? p.at : 0, done: Array.isArray(p.done) ? p.done.filter(x => typeof x === 'string') : [],
+           drafts: (p.drafts && typeof p.drafts === 'object') ? p.drafts : {} }; }
+  catch { return { at: 0, done: [], drafts: {} }; } };
+const save = () => { try { localStorage.setItem(SAVE, JSON.stringify(me)); } catch { /* private mode: carry on, just do not remember */ } };
+let me = load();
+let picked = new Set();
+let checked = false;
+
+function steps() {
+  const bar = $('#steps'); bar.replaceChildren();
+  LESSONS.forEach((l, i) => {
+    const b = el('button', 'step' + (i === me.at ? ' here' : '') + (me.done.includes(l.id) ? ' done' : '') + (l.kind === SPOT ? ' read' : ''), String(i + 1));
+    b.type = 'button';
+    b.title = l.title;
+    b.addEventListener('click', () => { me.at = i; save(); draw(); });
+    bar.append(b);
+  });
+}
+
+// ── a writing exercise ────────────────────────────────────────────────────────────────────────
+function drawWrite(l, main) {
+  const brief = el('div', 'card');
+  brief.append(el('div', 'top', 'the job'));
+  const bb = el('div', 'body');
+  bb.append(el('div', 'brief', l.brief));
+  const weak = el('div', 'weak');
+  weak.append(el('div', 'q', l.weak));
+  weak.append(el('div', 'n', l.weakWhy));
+  bb.append(weak);
+  brief.append(bb); main.append(brief);
+
+  const box = el('div', 'card');
+  box.append(el('div', 'top', 'your turn'));
+  const body = el('div', 'body');
+  const ta = el('textarea');
+  ta.id = 'answer';
+  ta.placeholder = 'Write the request you would actually send…';
+  ta.value = me.drafts[l.id] || '';
+  ta.setAttribute('aria-label', 'Write your request');
+  body.append(ta);
+  const row = el('div', 'row');
+  const go = el('button', 'go', 'Mark it'); go.type = 'button';
+  const count = el('span', 'count');
+  const tally = () => { count.textContent = `${(ta.value.trim().match(/\S+/g) || []).length} words`; };
+  tally();
+  ta.addEventListener('input', () => { tally(); me.drafts[l.id] = ta.value; save(); });
+  row.append(go, count);
+  body.append(row);
+  const out = el('div'); out.id = 'out';
+  body.append(out);
+  box.append(body); main.append(box);
+
+  go.addEventListener('click', () => {
+    const m = mark(ta.value, l.asked);
+    out.replaceChildren(drawMark(m));
+    if (m.passed && !me.done.includes(l.id)) me.done.push(l.id);
+    save(); steps();
+    out.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  });
+}
+
+function drawMark(m) {
+  const v = el('div', 'verdict ' + (m.passed ? 'pass' : 'fail'));
+  v.append(el('h3', null, m.passed ? 'Everything this exercise asked for is in there.' : m.verdict));
+  const ticks = el('div', 'ticks');
+  for (const k of m.asked) {
+    ticks.append(el('span', 'tick ' + (m.met.includes(k) ? 'in' : 'out'), (m.met.includes(k) ? '✓ ' : '✗ ') + MEANS[k]));
+  }
+  v.append(ticks);
+  if (m.notes.length) {
+    const ul = el('ul', 'fixes');
+    for (const n of m.notes) {
+      const li = el('li');
+      li.append(el('b', null, n.means + ' — '));
+      li.append(document.createTextNode(n.fix));
+      ul.append(li);
+    }
+    v.append(ul);
+  }
+  v.append(el('div', 'limit', LIMIT));
+  return v;
+}
+
+// ── a reading exercise ────────────────────────────────────────────────────────────────────────
+function drawSpot(l, main) {
+  picked = new Set(); checked = false;
+
+  const card = el('div', 'card');
+  card.append(el('div', 'top', 'the answer that came back'));
+  const body = el('div', 'body');
+  body.append(el('div', 'reply', l.reply));
+  card.append(body); main.append(card);
+
+  const q = el('div', 'card');
+  q.append(el('div', 'top', "what's wrong with it? pick every one that applies"));
+  const qb = el('div', 'body');
+  const picks = el('div', 'picks');
+  const buttons = new Map();
+  for (const t of TELLS) {
+    const b = el('button', 'pick'); b.type = 'button';
+    b.append(el('span', 'box'));
+    const txt = el('span');
+    txt.append(el('span', 't', t.name));
+    txt.append(el('span', 'd', t.why));
+    b.append(txt);
+    b.addEventListener('click', () => {
+      if (checked) return;
+      if (picked.has(t.id)) { picked.delete(t.id); b.classList.remove('chosen'); }
+      else { picked.add(t.id); b.classList.add('chosen'); }
+    });
+    buttons.set(t.id, b);
+    picks.append(b);
+  }
+  qb.append(picks);
+  const row = el('div', 'row');
+  const go = el('button', 'go', 'Check'); go.type = 'button';
+  row.append(go);
+  qb.append(row);
+  const out = el('div'); out.id = 'out';
+  qb.append(out);
+  q.append(qb); main.append(q);
+
+  go.addEventListener('click', () => {
+    if (checked) return;
+    checked = true;
+    // The truth comes from reading the reply, not from an answer key typed next to it — so the
+    // lesson cannot drift away from what the reader actually finds.
+    const real = new Set(tells(l.reply, l.brief || '').map(t => t.id));
+    for (const [id, b] of buttons) {
+      b.classList.remove('chosen');
+      if (real.has(id)) b.classList.add('right');
+      else if (picked.has(id)) b.classList.add('wrong');
+    }
+    const missed = [...real].filter(id => !picked.has(id));
+    const wrong = [...picked].filter(id => !real.has(id));
+    const v = el('div', 'verdict ' + (missed.length === 0 && wrong.length === 0 ? 'pass' : 'fail'));
+    v.append(el('h3', null,
+      missed.length === 0 && wrong.length === 0 ? `All ${real.size} found, nothing invented.`
+        : missed.length && wrong.length ? `Missed ${missed.length}, and called out ${wrong.length} that is not there.`
+        : missed.length ? `Missed ${missed.length} of ${real.size}.`
+        : `${wrong.length} of those is not actually in this answer — reading a fault in is its own mistake.`));
+    const cb = el('div', 'comeback');
+    cb.append(el('div', 'l', 'send this back'));
+    for (const id of real) cb.append(el('p', null, COMEBACK[id]));
+    v.append(cb);
+    out.replaceChildren(v);
+    if (missed.length === 0 && wrong.length === 0 && !me.done.includes(l.id)) me.done.push(l.id);
+    save(); steps();
+    out.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  });
+}
+
+// ── the whole page ────────────────────────────────────────────────────────────────────────────
+function draw() {
+  const main = $('#main'); main.replaceChildren();
+  steps();
+
+  if (me.at >= LESSONS.length) return drawEnd(main);
+  const l = LESSONS[me.at];
+
+  if (me.at === 0) {
+    const open = el('div', 'opening');
+    const p1 = el('p');
+    p1.textContent = 'Most advice about talking to AI is a list of tips. You read it, you nod, and nothing changes — because nothing ever checked whether you could do it.';
+    const p2 = el('p', 'small');
+    p2.textContent = 'This marks what you write. It can tell you no, and it will say exactly what is missing and the sentence to add. It runs on your machine; nothing you type here goes anywhere.';
+    open.append(p1, p2); main.append(open);
+  }
+
+  main.append(el('div', 'kicker', `${l.kind === SPOT ? 'reading the answer' : 'asking properly'} · ${me.at + 1} of ${LESSONS.length}`));
+  main.append(el('h2', null, l.title));
+  main.append(el('p', 'teaches', l.teaches));
+
+  if (l.kind === SPOT) drawSpot(l, main); else drawWrite(l, main);
+
+  const foot = el('div', 'foot');
+  const back = el('button', null, '← back'); back.type = 'button'; back.disabled = me.at === 0;
+  back.addEventListener('click', () => { me.at -= 1; save(); draw(); window.scrollTo(0, 0); });
+  const fwd = el('button', 'next', me.at === LESSONS.length - 1 ? 'finish →' : 'next →'); fwd.type = 'button';
+  fwd.addEventListener('click', () => { me.at += 1; save(); draw(); window.scrollTo(0, 0); });
+  foot.append(back, fwd);
+  main.append(foot);
+}
+
+function drawEnd(main) {
+  const d = el('div', 'done');
+  d.append(el('h2', null, 'That is the whole course.'));
+  d.append(el('div', 'big', `${me.done.length} / ${LESSONS.length}`));
+  const p = el('p', 'teaches');
+  p.style.margin = '0 auto 18px';
+  p.textContent = me.done.length === LESSONS.length
+    ? 'Every exercise passed on its own terms. The habit worth keeping is the last one: when an answer comes back smooth and certain, ask it which part it is least sure about.'
+    : `${LESSONS.length - me.done.length} still open. Nothing is stopping you moving on — but the ones you passed are the ones you can actually do.`;
+  d.append(p);
+  const again = el('button', 'go', 'start again'); again.type = 'button';
+  again.addEventListener('click', () => { me = { at: 0, done: [], drafts: {} }; save(); draw(); window.scrollTo(0, 0); });
+  d.append(again);
+  main.append(d);
+}
+
+$('#theme').addEventListener('click', () => {
+  const set = document.documentElement.getAttribute('data-theme');
+  const dark = set ? set === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark');
+});
+
+$('#proof').textContent = `marker: learn.mjs · ${LESSONS.length} exercises · ${TELLS.length} tells`;
+draw();
+</script>
+</body>
+</html>
